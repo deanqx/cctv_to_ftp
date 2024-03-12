@@ -2,28 +2,26 @@ from ftplib import FTP
 import cv2
 import time
 
-rtsp_url = "rtsp://STREAM_URL"
 ftp_server = 'ftp.example.com'
 ftp_username = 'USERNAME'
 ftp_password = 'PASSWORD'
-remote_image_path = 'PATH'
 image_type = '.jpg'
 
-if __name__ == "__main__":
+def connect_to_camera(rtsp_url, remote_image_path):
     ftp_connection = FTP(ftp_server) 
     ftp_connection.login(ftp_username, ftp_password)
     ftp_connection.connect()
 
     if not ftp_connection:
         print("Error: Could not connect to FTP")
-        exit()
+        return
 
     cap = cv2.VideoCapture(rtsp_url)
 
     if not cap.isOpened():
         print("Error: Could not open RTSP stream.")
         ftp_connection.quit()
-        exit()
+        return
 
     try:
         while True:
@@ -47,3 +45,6 @@ if __name__ == "__main__":
         cap.release()
 
     ftp_connection.quit()
+
+if __name__ == "__main__":
+    connect_to_camera('rtsp://STREAM_URL', 'PATH')
