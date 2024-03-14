@@ -23,6 +23,8 @@ def connect_to_camera(rtsp_url, remote_image_path):
         ftp_connection.quit()
         return
 
+    print('Successfully connected')
+
     try:
         while True:
             try:
